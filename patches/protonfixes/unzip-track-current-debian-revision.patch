@@ -1,0 +1,20 @@
+Subject: [PATCH] protonfixes: track current unzip debian revision.
+
+deb.debian.org drops old revisions from the pool; 6.0-29 is gone (404).
+6.0-31 is current. Required for CI/fresh builds (SuperNewRoles variant).
+
+---
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+--- a/Makefile
++++ b/Makefile
+@@ -145,7 +145,7 @@ DEFINES = -DACORN_FTYPE_NFS -DWILD_STOP_AT_DIR -DLARGE_FILE_SUPPORT \
+  -DNO_WORKING_ISPRINT
+ UNZIP_VERSION := 6.0
+-UNZIP_DEBIAN_REVISION := 29
++UNZIP_DEBIAN_REVISION := 31
+ UNZIP_BASE_URL := https://deb.debian.org/debian/pool/main/u/unzip
+ UNZIP_ORIG_TARBALL := unzip_$(UNZIP_VERSION).orig.tar.gz
+ UNZIP_DEBIAN_TARBALL := unzip_$(UNZIP_VERSION)-$(UNZIP_DEBIAN_REVISION).debian.tar.xz
