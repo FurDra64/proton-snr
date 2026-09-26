@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Proton-SNR
+Date: Sat, 27 Sep 2026 00:00:00 +0000
+Subject: [PATCH] ncrypt: Pass through OAEP padding to BCryptEncrypt.
+
+Wine's bcrypt backend already implements RSA-OAEP (SymCryptRsaOaepEncrypt)
+and uses the same BCRYPT_OAEP_PADDING_INFO layout and flag values as
+NCrypt, so there is no reason to reject NCRYPT_PAD_OAEP_FLAG here.
+Required by SuperNewRoles (RSACng.Encrypt with OaepSHA1), which otherwise
+fails with NTE_NOT_SUPPORTED (0x80090029) at plugin load.
+
+---
+ dlls/ncrypt/main.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/dlls/ncrypt/main.c b/dlls/ncrypt/main.c
+--- a/dlls/ncrypt/main.c
++++ b/dlls/ncrypt/main.c
+@@ -238,9 +238,9 @@ SECURITY_STATUS WINAPI NCryptEncrypt(NCRYPT_KEY_HANDLE key, BYTE *input, DWORD i
+         return NTE_BAD_FLAGS;
+     }
+
+-    if (flags & NCRYPT_NO_PADDING_FLAG || flags & NCRYPT_PAD_OAEP_FLAG)
++    if (flags & NCRYPT_NO_PADDING_FLAG)
+     {
+-        FIXME("No padding and oaep padding not supported\n");
++        FIXME("No padding not supported\n");
+         return NTE_NOT_SUPPORTED;
+     }
+

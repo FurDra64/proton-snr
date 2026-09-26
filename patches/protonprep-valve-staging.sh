@@ -339,6 +339,12 @@ apply_all_in_dir() {
     echo "WINE: -HOTFIX- Fall back when GnuTLS lacks NO_SHUFFLE_EXTENSIONS"
     apply_patch "../patches/wine-hotfixes/pending/secur32-fallback-without-no-shuffle-extensions.patch"
 
+    echo "WINE: -SNR- Support ECDSA_P256 persisted key creation (SuperNewRoles)"
+    apply_patch "../patches/wine-hotfixes/pending/ncrypt-ecdsa-p256-support.patch"
+
+    echo "WINE: -SNR- Pass OAEP padding through to BCryptEncrypt (SuperNewRoles)"
+    apply_patch "../patches/wine-hotfixes/pending/ncrypt-oaep-encrypt-passthrough.patch"
+
     echo "WINE: -HOTFIX- Preserve driver-reported OpenGL GPU identity"
     apply_patch "../patches/wine-hotfixes/pending/wined3d-preserve-runtime-opengl-gpu-description.patch"
 
